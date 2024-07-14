@@ -52,13 +52,22 @@ The datasets manipulated in this code can be downloaded on the following locatio
 
 
 
+
 ## Usage
+
+### start containers
+
+docker build -t chenxi-image -f Dockerfile .
+
+docker run -it --gpus all --name chenxi-container -v ${PWD}:/opt/code chenxi-image /bin/bash
 
 ### Selecting text prototype
 
-Download LLM from huggingface
+Download LLM from huggingface: wget -O pytorch_model.bin https://huggingface.co/openai-community/gpt2/resolve/main/pytorch_model.bin?download=true
 
 To select text prototypes from GPT2
+
+Estos son los embeddings, se toman prototipos de texto del modelo gpt2 para mapear las representaciones de series temporales al espacio de embeddings del LLM.
 
 `python losses/text_prototype.py --llm_model_dir= path/to/llm/folder/ --prototype_dir path/to/save/prototype/file/ --provide Flase(ramdom) or a text lisr --number_of_prototype 10`
 
@@ -66,8 +75,11 @@ To select text prototypes from GPT2
 ### Training encoder on the UEA archives
 
 To train a model on the EthanolConcentration dataset from the UEA archive with specific gpu:
+(wget http://www.timeseriesclassification.com/aeon-toolkit/Archives/Univariate2018_arff.zip ) dataset de series univariadas
 
 `python main_encoder.py --data_dir path/to/EthanolConcentration/folder/ --gpu 0`
+
+(python main_encoder.py --data_dir=./datasets_classification/UEA_arff/EthanolLevel --output_dir=experiments_encoder --d_model=768 --gpu 0)
 
 Adding the `--load_encoder` option allows to load a model from the specified save path.
 
