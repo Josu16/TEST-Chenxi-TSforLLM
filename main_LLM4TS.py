@@ -454,9 +454,9 @@ def main_forecasting(config):
 
 
 if __name__ == '__main__':
-    # args = options_classification().parse()
-    # config = setup(args)
-    # main_classification(config)
+    args = options_classification().parse()
+    config = setup(args)
+    main_classification(config)
 
     # --output_dir
     # experiments
@@ -497,9 +497,9 @@ if __name__ == '__main__':
 
 
 
-    args = options_forecasting().parse()
-    config = setup(args)
-    main_forecasting(config)
+    # args = options_forecasting().parse()
+    # config = setup(args)
+    # main_forecasting(config)
     #
     # --root_path
     # ./ datasets_forecasting / traffic /

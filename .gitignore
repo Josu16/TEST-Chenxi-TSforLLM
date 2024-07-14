@@ -4,6 +4,8 @@ datasets_classification/Multivariate_ts/*
 datasets_classification/UEA_arff/*
 datasets_classification/UEA_univariate/*
 
+losses/text_prototype_representative.pt
+
 experiments/*
 experiments_encoder/*
 

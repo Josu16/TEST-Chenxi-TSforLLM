@@ -658,7 +658,7 @@ class TimeSeriesEncoderClassifier(sklearn.base.BaseEstimator,
                     'decision_function_shape': ['ovr'],
                     'random_state': [None]
                 },
-                cv=5, iid=False, n_jobs=5
+                cv=5, n_jobs=5
             )
             if train_size <= 10000:
                 grid_search.fit(features, y)
@@ -968,6 +968,7 @@ class CausalCNNEncoderClassifier(TimeSeriesEncoderClassifier):
         self.depth = depth
         self.reduced_size = reduced_size
         self.kernel_size = kernel_size
+        print("se inicializó la red neuronal de encoder")
 
     def __create_encoder(self, in_channels, channels, depth, reduced_size,
                          out_channels, kernel_size, cuda, gpu,local_rank):

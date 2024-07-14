@@ -369,11 +369,15 @@ def load_UEA_dataset(path, dataset):
     test_size = test_weka.num_instances
     nb_dims = train_weka.get_instance(0).get_relational_value(0).num_instances
     length = train_weka.get_instance(0).get_relational_value(0).num_attributes
+    # print("dbg----------")
+    # print(train_weka.get_instance(0))
+    # print(type(train_weka.get_instance(0)))
+    # print("dbg----------")
 
     train = np.empty((train_size, nb_dims, length))
     test = np.empty((test_size, nb_dims, length))
-    train_labels = np.empty(train_size, dtype=np.int)
-    test_labels = np.empty(test_size, dtype=np.int)
+    train_labels = np.empty(train_size, dtype=int)
+    test_labels = np.empty(test_size, dtype=int)
 
     for i in range(train_size):
         train_labels[i] = int(train_weka.get_instance(i).get_value(1))

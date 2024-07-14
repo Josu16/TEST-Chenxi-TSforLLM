@@ -30,7 +30,7 @@ def main_classification(config):
         torch.manual_seed(config['seed'])
 
     # Device info
-    device = torch.device('cuda' if (torch.cuda.is_available() and config['gpu'] != '-1') else 'cpu')
+    device = 'cuda' if (torch.cuda.is_available()) else 'cpu'
     logger.info("Using device: {}".format(device))
     if device == 'cuda':
         logger.info("Device index: {}".format(torch.cuda.current_device()))
@@ -59,15 +59,19 @@ def main_classification(config):
 
     logger.info("Creating encoder model ...")
     if device == 'cuda':
+        print("CUDA DISPONIBLE")
         encoder_cuda=True
         encoder_gpu=torch.cuda.current_device()
     else:
+        print("CUDA NO DISPONIBLE")
         encoder_cuda=False
         encoder_gpu=-1
     if not config['load_encoder'] and not config['fit_encoder_classifier']:
+        print("DBG 1")
         encoder_classifier = fit_encoder_classifier_parameters(text_prototype=prototype_embeddings, dataset_x=encoder_train_data, dataset_labels=encoder_train_labels, cuda=encoder_cuda, gpu=encoder_gpu, local_rank=-1,
             save_memory=True)
     else:
+        print("DBG 2")
         encoder_classifier = wrapper.CausalCNNEncoderClassifier()
         hf = open(
             os.path.join(
@@ -84,6 +88,7 @@ def main_classification(config):
         encoder_classifier.load(os.path.join(config['encoder_save_path'], config['data_dir'].split('/')[-1]))
 
     if not config['load_encoder']:
+        print("DBG 3")
         if config['fit_encoder_classifier']:
             encoder_classifier.fit_classifier(encoder_classifier.encode(encoder_train_data), encoder_train_labels)
         encoder_classifier.save(
@@ -178,9 +183,9 @@ def main_forecasting(config):
 
 
 if __name__ == '__main__':
-    # args = options_classification().parse()  # `argsparse` object
-    # config = setup(args)  # configuration dictionary
-    # main_classification(config)
+    args = options_classification().parse()  # `argsparse` object
+    config = setup(args)  # configuration dictionary
+    main_classification(config)
 
     # --output_dir
     # experiments_encoder
@@ -191,7 +196,7 @@ if __name__ == '__main__':
     # --gpu
     # -1
 
-    args = options_forecasting().parse()  # `argsparse` object
-    config = setup(args)  # configuration dictionary
-    main_forecasting(config)
+    # args = options_forecasting().parse()  # `argsparse` object
+    # config = setup(args)  # configuration dictionary
+    # main_forecasting(config)
 
