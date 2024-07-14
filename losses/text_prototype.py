@@ -22,7 +22,7 @@ def select_representative(embedding_matrix, k):
             cores[i] = np.mean(items, axis=0)
     return cores
 
-def select_prototype(model_dir='../models/gpt2',prototype_dir='../losses',provide='representative',number_of_prototype=10):
+def select_prototype(model_dir='models/gpt2',prototype_dir='losses/',provide='representative',number_of_prototype=10):
     model_path = os.path.join(model_dir, 'pytorch_model.bin')
     state_dict = torch.load(model_path)
     embedding_matrix = state_dict['wte.weight']
