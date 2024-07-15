@@ -217,7 +217,12 @@ def validate(val_evaluator, tensorboard_writer, config, best_metrics, best_value
         best_metrics = aggr_metrics.copy()
 
         pred_filepath = os.path.join(config['pred_dir'], 'best_predictions')
-        np.savez(pred_filepath, **per_batch)
+
+        # # Verificar tipos y formas de los elementos en per_batch # TODO: corregir que per_batch sea homogéneo
+        # for key, value in per_batch.items():
+        #     print(f"Key: {key}, Type: {type(value)}, Shape: {np.shape(value)}")
+
+        # np.savez(pred_filepath, **per_batch)
 
     return aggr_metrics, best_metrics, best_value
 
@@ -446,7 +451,7 @@ class SupervisedRunner(BaseRunner):
             targets = targets.to(self.device)
             padding_masks = padding_masks.to(self.device)  # 0s: ignore
             # regression: (batch_size, num_labels); classification: (batch_size, num_classes) of logits
-            predictions = self.model(X.to(self.device),padding_masks)
+            predictions = self.model(X.to(self.device),padding_masks) ## Aquí está el error <--
 
             loss = self.loss_module(predictions, targets)  # (batch_size,) loss for each sample in the batch
             batch_loss = torch.sum(loss).cpu().item()
@@ -510,6 +515,8 @@ def fit_encoder_classifier_parameters(text_prototype, dataset_x, dataset_labels,
     # Loads a given set of hyperparameters and fits a model with those
     hf = open(os.path.join('./encoders/default_hyperparameters.json'), 'r')
     params = json.load(hf)
+    print("Estos son los verdaderos parámetros del encoder ")
+    print(params)
     hf.close()
     # Check the number of input channels
     params['in_channels'] = numpy.shape(dataset_x)[1]
@@ -539,6 +546,11 @@ def fit_encoder_parameters(text_prototype, dataset_x, cuda, gpu,local_rank,
     # Loads a given set of hyperparameters and fits a model with those
     hf = open(os.path.join('./encoders/default_hyperparameters.json'), 'r')
     params = json.load(hf)
+
+    print("ESTOS SON LOS PARÁMETROS DEL ENCODER-----------------------------")
+    print(params)
+
+
     hf.close()
     # Check the number of input channels
     params['in_channels'] = numpy.shape(dataset_x)[1]

@@ -79,7 +79,7 @@ To train a model on the EthanolConcentration dataset from the UEA archive with s
 
 `python main_encoder.py --data_dir path/to/EthanolConcentration/folder/ --gpu 0`
 
-(python main_encoder.py --data_dir=./datasets_classification/UEA_arff/EthanolLevel --output_dir=experiments_encoder --d_model=768 --gpu 0)
+(main_encoder.py --data_dir ./datasets_classification/UEA_arff/EthanolConcentration --output_dir=experiments_encoder --d_model=768 --gpu 0)
 
 Adding the `--load_encoder` option allows to load a model from the specified save path.
 

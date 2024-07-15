@@ -80,8 +80,10 @@ class gpt4ts_classification(nn.Module):
 
         # Use exteral encorder -------
         input_x = rearrange(input_x, 'b m n p-> (b n) m p')# 64,3,219,8 -> 64x219,3,8
-        outputs=self.encoder.encode(input_x.numpy()) # 64x219,3,8 -> 64x219,768
-        outputs=torch.from_numpy(outputs).type(torch.FloatTensor)
+
+        input_x =input_x.cpu().numpy()
+        outputs=self.encoder.encode(input_x) # 64x219,3,8 -> 64x219,768
+        outputs=torch.from_numpy(outputs).type(torch.FloatTensor).to(torch.device("cuda"))
         outputs = rearrange(outputs, '(b n) o-> b n o',b=B)# 64x219,768 -> 64,219,768
 
         outputs = self.gpt2(inputs_embeds=outputs).last_hidden_state # 64,219,768
